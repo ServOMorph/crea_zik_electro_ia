@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crea-zik"
+version = "0.1.0"
+description = "Plateforme open source gratuite pour la création musicale assistée par IA"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "ServOMorph", email = "servomorph14@gmail.com"}
+]
+keywords = ["music", "ai", "composition", "audio", "creativity"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Artists",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.10"
+
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "librosa>=0.10.0",
+    "pydub>=0.25.1",
+    "scipy>=1.11.4",
+    "numpy>=1.26.2",
+    "anthropic>=0.7.1",
+    "requests>=2.31.0",
+    "fastapi>=0.104.1",
+    "uvicorn>=0.24.0",
+    "pydantic>=2.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.3",
+    "pytest-cov>=4.1.0",
+    "black>=23.12.0",
+    "flake8>=6.1.0",
+    "mypy>=1.7.1",
+]
+torch = [
+    "torch>=2.1.1",
+]
+tensorflow = [
+    "tensorflow>=2.14.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ServOMorph/crea_zik_electro_IA"
+Repository = "https://github.com/ServOMorph/crea_zik_electro_IA.git"
+Issues = "https://github.com/ServOMorph/crea_zik_electro_IA/issues"
+Discussions = "https://github.com/ServOMorph/crea_zik_electro_IA/discussions"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "--cov=src --cov-report=html --cov-report=term-missing"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
