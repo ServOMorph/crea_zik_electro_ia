@@ -1,47 +1,50 @@
 # Signals — crea_zik   (MAJ 2026-06-19)
 
 ## Actions ouvertes
-- [P1|ouvert] Décider : rester mono-piste (Kick) ou passer à un rack multi-pistes
-- [P2|ouvert] Décider si Docker reste ou est retiré (prématuré sans backend)
+- [P1|ouvert] Décider si Docker reste ou est retiré (prématuré sans backend)
 
 ## Actions fermées (session 2026-06-19)
-- [P2|fermé] Renommer remote git en `origin` ✓
-- [P1|fermé] Première UI : bouton son + séquenceur 16 steps + transport ✓
+- [P1|fermé] Passage au rack multi-pistes (kick + snare + hihat) ✓
+- [P1|fermé] Bouton mute par piste ✓
+- [P1|fermé] Volume par piste (QDial) ✓
+- [P1|fermé] Save / Load pattern JSON avec dossier SAV par défaut ✓
+- [P1|fermé] Panneau réglages instrument par piste (temps réel) ✓
+- [P1|fermé] Correction saturation audio (tanh soft clip + MASTER_GAIN) ✓
 
 ## Questions ouvertes
-- Une seule piste (Kick) ou vrai rack multi-pistes maintenant ?
 
 ## Échéances
 
 ## Blocages
 
 ## Contexte chaud
-- Audio : flux WASAPI persistant + mixage par callback (UI/audio.py). Ne PAS revenir à sd.play() par appel (latence + clics).
-- Fréquence imposée par le device (48000 sur cette machine), le kick est régénéré à cette fréquence.
-- Code UI dans UI/, pas dans src/. Le backend FastAPI/librosa du contexte n'est pas encore amorcé.
+- Audio : flux WASAPI persistant + mixage par callback (UI/audio.py). Ne PAS revenir à sd.play().
+- MASTER_GAIN = 0.35 — calibré pour éviter la compression tanh sur 3 voix simultanées.
+- Samples pré-calculés à l'init, régénérés sous lock via update_kick/snare/hihat() au changement de param.
+- Code UI dans UI/, backend FastAPI/librosa pas encore amorcé.
+- Dossier de sauvegarde : D:\ServOMorph\crea_zik_electro_IA\SAV
 
 ## Dernière session (2026-06-19)
 # Session du 2026-06-19
 
 ## Décisions prises
-- UI desktop en PyQt6 (vs web) ; son synthétisé (pas de samples)
-- Moteur audio temps réel : flux de sortie persistant + mixage additif par callback
-- Sortie audio via WASAPI low-latency (repli auto sur défaut)
+- Passage au rack multi-pistes : kick, snare, hihat (synthèse bruit blanc pour snare/hihat)
+- Correction saturation : hard clip remplacé par tanh + MASTER_GAIN=0.35
+- Réglages instrument exposés en temps réel via panneaux collapsibles par piste
 
 ## Livrables produits ou modifiés
-- UI/audio.py : créé — synth kick + moteur audio (WASAPI, mixage voix)
-- UI/main.py : créé — channel rack (bouton Kick, 16 steps, transport play/BPM, playhead)
-- run.py : créé — lanceur avec auto-reload (watchdog) du dossier UI/
-- requirements.txt : ajout sounddevice, PyQt6, watchdog
+- UI/audio.py : ajout synth_snare, synth_hihat, update_kick/snare/hihat, MASTER_GAIN=0.35, soft clip tanh
+- UI/main.py : rack multi-pistes, mute, volume (QDial), save/load JSON, panneaux réglages instrument
+- SAV/ : dossier créé, dossier par défaut des dialogues save/load
 
 ## Hypothèses validées / invalidées
-- VALIDE : WASAPI low-latency = 22 ms (vs 104 ms en MME)
-- INVALIDE : sd.play() par déclenchement -> pivot flux persistant + callback mixant
-- INVALIDE : ouverture à 44100 Hz -> pivot fréquence native du device (48000)
+- VALIDE : hard clip = source de saturation audible sur voix simultanées
+- VALIDE : MASTER_GAIN=0.35 + tanh supprime la compression inter-pistes
+- INVALIDE : MASTER_GAIN=0.6 -> perte de 0.146 sur la snare quand kick simultané
 
 ## Prochaine étape exacte
-Tester l'enchaînement séquenceur en conditions réelles (run.py). Puis décider
-de l'extension : multi-pistes, contrôles (volume/swing), ou amorçage backend.
+Tester les réglages instrument en conditions réelles (run.py).
+Décider de la prochaine feature : swing, effets (reverb/delay), ou amorçage backend IA.
 
 ## Question bloquante pour la session suivante
-Rester mono-piste (Kick) ou passer à un vrai rack multi-pistes maintenant ?
+Aucune

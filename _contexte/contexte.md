@@ -13,9 +13,9 @@ Créer un environnement de création musicale assistée par IA. Plateforme open 
 - Docker (déploiement)
 
 ## État actuel (réécrit intégralement à chaque /close)
-Première UI desktop produite dans UI/ : channel rack PyQt6 (bouton Kick synthétisé,
-séquenceur 16 steps, transport play/BPM). Moteur audio temps réel via flux WASAPI
-persistant + mixage par callback. Lanceur run.py avec auto-reload (watchdog).
+Channel rack 3 pistes (kick/snare/hihat) avec séquenceur 16 steps, transport, mute,
+volume (QDial), réglages instrument temps réel (panneaux collapsibles), save/load JSON
+vers SAV/. Moteur audio WASAPI persistant, soft clip tanh, MASTER_GAIN=0.35.
 Backend FastAPI/librosa pas encore amorcé. Docker toujours en suspens.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
@@ -23,3 +23,5 @@ Backend FastAPI/librosa pas encore amorcé. Docker toujours en suspens.
 - 2026-06-19 : Docker conservé dans la structure mais jugé prématuré sans code source.
 - 2026-06-19 : UI desktop en PyQt6 (vs web), son synthétisé (vs samples).
 - 2026-06-19 : Moteur audio = flux de sortie persistant + mixage par callback, sortie WASAPI low-latency.
+- 2026-06-19 : Rack multi-pistes kick/snare/hihat, mute, volume, réglages instrument temps réel.
+- 2026-06-19 : Saturation corrigée — hard clip remplacé par tanh + MASTER_GAIN=0.35.
