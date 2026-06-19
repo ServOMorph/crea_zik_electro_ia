@@ -3,7 +3,9 @@
 ## Actions ouvertes
 - [P1|ouvert] Définir l'architecture src/ et le premier module à implémenter
 - [P2|ouvert] Décider si Docker reste ou est retiré (prématuré sans code source)
-- [P2|ouvert] Renommer remote git en `origin` (actuellement nommé `crea_zik_electro_ia`)
+
+## Actions fermées (session 2026-06-19)
+- [P2|fermé] Renommer remote git en `origin` ✓
 
 ## Questions ouvertes
 - Par où commencer le code : génération musicale (LLM), processing audio (librosa), ou API REST (FastAPI) ?
@@ -13,7 +15,7 @@
 ## Blocages
 
 ## Contexte chaud
-- Remote git nommé `crea_zik_electro_ia` (pas `origin`) — ne pas oublier pour les git push
+(néant)
 
 ## Dernière session (2026-06-19)
 # Session du 2026-06-19
