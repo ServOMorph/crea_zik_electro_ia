@@ -13,10 +13,13 @@ Créer un environnement de création musicale assistée par IA. Plateforme open 
 - Docker (déploiement)
 
 ## État actuel (réécrit intégralement à chaque /close)
-Structure complète initialisée (22 fichiers). Repo GitHub créé et pushé.
-Aucun code source produit. Prochaine étape : définir l'architecture src/ et le premier module.
-Docker présent mais prématuré — à réévaluer quand le code existera.
+Première UI desktop produite dans UI/ : channel rack PyQt6 (bouton Kick synthétisé,
+séquenceur 16 steps, transport play/BPM). Moteur audio temps réel via flux WASAPI
+persistant + mixage par callback. Lanceur run.py avec auto-reload (watchdog).
+Backend FastAPI/librosa pas encore amorcé. Docker toujours en suspens.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-19 : Initialisation du protocole vibecoding avec licence MIT pour open source.
 - 2026-06-19 : Docker conservé dans la structure mais jugé prématuré sans code source.
+- 2026-06-19 : UI desktop en PyQt6 (vs web), son synthétisé (vs samples).
+- 2026-06-19 : Moteur audio = flux de sortie persistant + mixage par callback, sortie WASAPI low-latency.
