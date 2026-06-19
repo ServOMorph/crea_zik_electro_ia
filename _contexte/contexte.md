@@ -13,7 +13,10 @@ Créer un environnement de création musicale assistée par IA. Plateforme open 
 - Docker (déploiement)
 
 ## État actuel (réécrit intégralement à chaque /close)
-Projet initialisé. Aucun livrable produit.
+Structure complète initialisée (22 fichiers). Repo GitHub créé et pushé.
+Aucun code source produit. Prochaine étape : définir l'architecture src/ et le premier module.
+Docker présent mais prématuré — à réévaluer quand le code existera.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-19 : Initialisation du protocole vibecoding avec licence MIT pour open source.
+- 2026-06-19 : Docker conservé dans la structure mais jugé prématuré sans code source.
