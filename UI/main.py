@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+from pathlib import Path
 
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import (
@@ -22,7 +23,7 @@ from audio import play_kick, play_snare, play_hihat
 
 STEP_COUNT = 16
 DEFAULT_BPM = 120
-SAV_DIR = r"D:\ServOMorph\crea_zik_electro_IA\SAV"
+SAV_DIR = Path(__file__).resolve().parent.parent / "SAV"
 
 LABEL_STYLE = "color: #aaaaaa; font-size: 10px;"
 PANEL_STYLE = "background-color: #3a3a3a; border-radius: 4px;"
