@@ -150,3 +150,6 @@ models/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local save patterns
+SAV/
