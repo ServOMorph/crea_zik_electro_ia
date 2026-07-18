@@ -1,34 +1,20 @@
-# Crea Zik - Création Musicale Assistée par IA
+# Crea Zik - Step Sequencer Electro IA
 
-<div align="center">
+**Sequencer drum open source avec synthese audio temps reel et interface PyQt6**
 
-**Plateforme open source gratuite pour la création musicale avec l'intelligence artificielle**
+Crea Zik est un drum machine logiciel avec sequenceur 16 pas, synthese sonore en temps reel (numpy + sounddevice via WASAPI), et interface graphique desktop (PyQt6). Le projet est en developpement actif, concu pour evoluer vers la composition musicale assistee par IA.
 
-[Documentation](#documentation) • [Installation](#installation) • [Contribution](#contribution) • [License](#licence)
+## A quoi ca sert
 
-</div>
+Lancer un sequencer drum capable de jouer des kicks, snares et hi-hats avec des reglages de synthese per instrument (frequence, duree, decay, volume, mute) — le tout en temps reel, sans latence perceptible.
 
-## À propos
-
-Crea Zik est un environnement complet pour explorer et créer de la musique avec l'assistance d'IA. Notre mission est de démocratiser les outils créatifs avancés en les rendant accessibles, gratuits et open source.
-
-### Caractéristiques principales
-
-- 🎵 **Génération musicale** — Composition assistée par IA
-- 🎛️ **Processing audio** — Manipulation et traitement du son
-- 🔄 **Workflows flexibles** — Adaptez le système à votre créativité
-- 🖥️ **Interface simple** — Facile à utiliser, puissant sous le capot
-- 📦 **Complètement open source** — Licence MIT, modifiable et déployable
-
-## Installation
-
-### Prérequis
+## Prerequis
 
 - Python 3.10+
-- pip / conda
-- (Optionnel) GPU CUDA/ROCm pour accélération
+- Windows (synthese audio via WASAPI)
+- Carte son compatible WASAPI
 
-### Installation rapide
+## Installation
 
 ```bash
 git clone https://github.com/ServOMorph/crea_zik_electro_IA.git
@@ -36,94 +22,58 @@ cd crea_zik_electro_IA
 pip install -r requirements.txt
 ```
 
-### Avec Docker (recommandé)
+## Usage
 
 ```bash
-docker build -t crea-zik .
-docker run -it crea-zik
+python run.py
 ```
 
-## Documentation
+`run.py` lance `UI/main.py` avec hot-reload (watchdog) : toute modification d'un fichier `.py` dans `UI/` relance automatiquement l'application.
 
-Consultez la [documentation complète](./docs/) pour :
-- [Guide de démarrage](./docs/getting-started.md)
-- [API Reference](./docs/api.md)
-- [Exemples d'utilisation](./docs/examples/)
-- [Architecture du projet](./docs/architecture.md)
+### Interface
 
-## Protocole de développement
+- **3 pistes** : kick, snare, hi-hat
+- **Sequenceur 16 pas** : cliquer sur les steps pour activer/desactiver
+- **Transport** : play / stop avec curseur de lecture visuel
+- **BPM** : reglage entre 60 et 300 (defaut 120)
+- **Par piste** : bouton mute, dial volume, panneau de reglages de synthese (frequence de depart/fin pour le kick, duree, amplitude de decay)
+- **Sauvegarde/chargement** : export/import de patterns au format JSON
 
-Ce projet utilise le **protocole vibecoding** pour la gestion des contextes et sessions Claude AI. Consultez [`_docs/protocole_vibecoding.md`](./_docs/protocole_vibecoding.md) pour les commandes `/start` et `/close`.
+## Comment ca marche
 
-## Contribution
+- `run.py` — Lanceur avec hot-reload via watchdog. Lance `UI/main.py` et surveille les changements.
+- `UI/main.py` — Interface PyQt6. Construit la grille de sequenceur, gere le transport avec QTimer, les parametres par piste, et le save/load JSON.
+- `UI/audio.py` — Moteur de synthese audio. Genere des echantillons (sine sweep pour le kick, bruit blanc filtre pour snare/hi-hat), les joue via sounddevice en callback WASAPI, avec soft clipping et voix multiples.
 
-Les contributions sont bienvenues ! Consultez [CONTRIBUTING.md](./CONTRIBUTING.md) pour :
-- Comment signaler les bugs
-- Comment proposer des améliorations
-- Processus de Pull Request
-- Code de conduite
+## Stack technique
 
-## Structure du projet
+Python, PyQt6, numpy, sounddevice, watchdog
+
+## Architecture
 
 ```
 crea_zik_electro_IA/
-├── README.md                    # Ce fichier
-├── LICENSE                      # Licence MIT
-├── CLAUDE.md                    # Instructions IA
-├── CONTRIBUTING.md              # Guide de contribution
-├── CODE_OF_CONDUCT.md           # Code de conduite
-├── requirements.txt             # Dépendances Python
-├── Dockerfile                   # Configuration Docker
-├── _contexte/                   # Gestion de contexte (vibecoding)
-├── _docs/                       # Documentation
-├── src/                         # Code source
-├── tests/                       # Tests unitaires
-├── examples/                    # Exemples d'utilisation
-└── .claude/commands/            # Commandes Claude Code (/start, /close)
+├── run.py                 # Lanceur avec hot-reload
+├── UI/
+│   ├── main.py            # Interface PyQt6 (sequencer, transport, parametres)
+│   └── audio.py           # Synthese audio temps reel (numpy + sounddevice)
+├── _contexte/             # Contexte de session (protocole vibecoding)
+├── _docs/                 # Documentation interne
+├── requirements.txt       # Dependance Python
+├── pyproject.toml         # Metadata du package
+├── .claude/               # Instructions et commandes Claude Code
+└── .gitignore
 ```
 
-## Utilisation rapide
+## Etat actuel
 
-```python
-from crea_zik import MusicComposer
-
-composer = MusicComposer()
-composition = composer.generate(prompt="Musique électronique ambient")
-composition.save("output.wav")
-```
-
-## Modèles supportés
-
-- **Claude API** (défaut) — Recommandé pour la qualité
-- **Ollama local** — Pour confidentialité/hors-ligne
-- **OpenAI** (optionnel)
-
-## Roadmap
-
-- [ ] Phase 1 : Core API et génération basique
-- [ ] Phase 2 : Interface web
-- [ ] Phase 3 : Intégration DAW (FL Studio, Ableton)
-- [ ] Phase 4 : Modèles fine-tuned
-
-## Support
-
-- 🐛 [Issues GitHub](https://github.com/ServOMorph/crea_zik_electro_IA/issues)
-- 💬 [Discussions](https://github.com/ServOMorph/crea_zik_electro_IA/discussions)
-- 📧 Contact : servomorph14@gmail.com
+v0.1.0 — Sequencer drum fonctionnel avec 3 pistes, 16 pas, synthese temps reel et reglages par instrument.
 
 ## Licence
 
-Ce projet est sous licence **MIT** — Entièrement gratuit et open source.
+Ce projet est sous licence **MIT** — Voir [LICENSE](./LICENSE) pour plus de details.
 
-Voir [LICENSE](./LICENSE) pour plus de détails.
+## Support
 
-## Remerciements
-
-- [Anthropic](https://anthropic.com) — Claude API
-- [Librosa](https://librosa.org) — Audio processing
-- Tous nos contributeurs ❤️
-
----
-
-**Rejoignez la communauté et créez la musique de demain !** 🎶
-
+- [Issues GitHub](https://github.com/ServOMorph/crea_zik_electro_IA/issues)
+- [Discussions](https://github.com/ServOMorph/crea_zik_electro_IA/discussions)
