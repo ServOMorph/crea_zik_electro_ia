@@ -1,0 +1,38 @@
+# Crea Zik
+
+> Drum machine open source avec sequencer 16 pas, synthese audio temps reel et interface PyQt6.
+
+## Quoi
+
+Crea Zik est un sequencer drum logiciel : grille 16 pas, 3 pistes (kick, snare, hi-hat), synthese audio en temps reel via numpy et sounddevice (WASAPI sur Windows), interface desktop PyQt6. En developpement actif, vise l'evolution vers la composition musicale assistee par IA.
+
+## Stack
+
+Python 3.10+, PyQt6, numpy, sounddevice, watchdog
+
+## Points d'entree
+
+- `run.py` : lanceur avec hot-reload (watchdog), demarre UI/main.py et surveille les changements
+- `UI/main.py` : interface PyQt6 (grille sequencer, transport BPM, reglages par piste, save/load JSON)
+- `UI/audio.py` : moteur de synthese (sine sweep kick, bruit blanc snare/hi-hat, callback sounddevice, soft clipping)
+
+## Architecture
+
+- `run.py` -> `UI/main.py` : lancement avec hot-reload
+- `UI/main.py` -> `UI/audio.py` : appels de synthese par piste (play_kick, play_snare, play_hihat)
+- `UI/audio.py` : output stream sounddevice persistant, callback audio, voix multiples avec lock
+
+## Etat
+
+v0.1.0 — Sequencer drum fonctionnel, 3 pistes, 16 pas, synthese temps reel, reglages par instrument.
+
+## Fichiers
+
+- `requirements.txt` : dependances Python
+- `pyproject.toml` : metadata du package
+- `CHANGELOG.md` : historique des versions
+- `_contexte/` : contexte de session (protocole vibecoding)
+- `_docs/protocole_vibecoding.md` : documentation du protocole vibecoding v2.1
+- `.claude/` : instructions et commandes Claude Code
+- `INSTALL.md` : guide d'installation
+- `CONTRIBUTING.md` : guide de contribution
